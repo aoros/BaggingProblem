@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class Bagit {
 
+    // github info:   https://netbeans.org/kb/docs/ide/github_nb_screencast.html
     private static final boolean DEBUG = true;
     private static final String BREADTH = "-breadth";
     private static final String DEPTH = "-depth";
