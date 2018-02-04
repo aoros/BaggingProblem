@@ -1,0 +1,17 @@
+10
+6
+bread  4 + rolls rolls2 rolls3 bread2 bread3
+rolls  2 + bread bread2 bread3 rolls2 rolls3
+squash 3 - beef beef2 beef3
+beef   5
+lima_beans 1 - beef beef2 beef3
+bread2  4 + rolls rolls2 rolls3 bread bread3
+rolls2  2 + bread bread2 bread3 rolls rolls3
+squash2 3 - beef beef2 beef3
+beef2   5
+lima_beans2 1 - beef beef2
+bread3  4 + rolls3
+rolls3  2 + bread3
+squash3 3 - beef beef2 beef3
+beef3   5
+lima_beans3 1 - beef beef2 beef3
