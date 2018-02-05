@@ -10,10 +10,13 @@ public class BaggingState {
     private final PackingDefinition packingDefinition;
     private final Bag[] bags;
     private final Set<Bag> bagSet = new HashSet<>();
+    private Double constrainingValue;
+    private Double originalConstrainingValue;
 
     public BaggingState(PackingDefinition packingDefinition) {
         this.packingDefinition = packingDefinition;
         this.bags = new Bag[packingDefinition.getNumAvailableBags()];
+        calculateConstrainingValue();
     }
 
     public void add(Bag bag, int index) {
@@ -40,11 +43,33 @@ public class BaggingState {
         return numItemsInBags;
     }
 
+    public void setConstrainingValueToZero() {
+        this.constrainingValue = 0.0;
+    }
+
+    public Double getConstrainingValue() {
+        return constrainingValue;
+    }
+
+    public Double getOriginalConstrainingValue() {
+        return originalConstrainingValue;
+    }
+
+    private void calculateConstrainingValue() {
+        constrainingValue = 0.0;
+        for (Bag bag : bags) {
+            if (bag != null)
+                constrainingValue += bag.getPercentageOfBagOpen() * bag.getWhiteListSize();
+        }
+        originalConstrainingValue = constrainingValue;
+    }
+
     public BaggingState copyOf() {
         BaggingState copy = new BaggingState(packingDefinition);
         for (int i = 0; i < bags.length; i++) {
             copy.add(bags[i].copyOf(), i);
         }
+        copy.calculateConstrainingValue();
         return copy;
     }
 

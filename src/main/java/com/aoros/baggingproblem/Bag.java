@@ -32,6 +32,10 @@ public class Bag {
         return allowedItems;
     }
 
+    public Double getWhiteListSize() {
+        return new Integer(allowedItems.size()).doubleValue();
+    }
+
     public Integer getMaxCapacity() {
         return maxCapacity;
     }
@@ -46,6 +50,10 @@ public class Bag {
 
     public Set<String> getBagItemNames() {
         return bagItemNames;
+    }
+
+    public Double getPercentageOfBagOpen() {
+        return 1.0 - amountInBag.doubleValue() / maxCapacity.doubleValue();
     }
 
     public boolean addItem(GroceryItem groceryItem) {

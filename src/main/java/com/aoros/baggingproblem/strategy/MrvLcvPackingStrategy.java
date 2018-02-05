@@ -5,12 +5,14 @@ import com.aoros.baggingproblem.GroceryItem;
 import com.aoros.baggingproblem.PackingDefinition;
 import com.aoros.baggingproblem.PackingUtils;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
-import java.util.Stack;
 
-public class MrvPackingStrategy implements PackingStrategy {
+public class MrvLcvPackingStrategy implements PackingStrategy {
 
     private boolean debug = false;
     private PackingDefinition packingDefinition;
@@ -38,16 +40,21 @@ public class MrvPackingStrategy implements PackingStrategy {
             return o2Val - o1Val;
         });
 
-        Stack<BaggingState> stack = new Stack<>();
-        stack.push(PackingUtils.getNewEmptyBagsState(packingDefinition, numBagsAllowed));
+        Queue<BaggingState> pQueue = new PriorityQueue<>(new Comparator<BaggingState>() {
+            @Override
+            public int compare(BaggingState bs1, BaggingState bs2) {
+                return (int) (bs2.getConstrainingValue() - bs1.getConstrainingValue());
+            }
+        });
+        pQueue.add(PackingUtils.getNewEmptyBagsState(packingDefinition, numBagsAllowed));
         int totalNumberOfGroceryItems = groceryItems.size();
 
         int iters = 1;
-        while (!stack.isEmpty()) {
+        while (!pQueue.isEmpty()) {
 //            if (debug)
-//                PackingUtils.printStack(stack, iters);
+//                PackingUtils.printQueue(pQueue, iters);
 
-            BaggingState bagsState = stack.pop();
+            BaggingState bagsState = pQueue.poll();
 
             if (isGoalStateReached(bagsState, totalNumberOfGroceryItems)) {
                 solutions.add(bagsState);
@@ -64,10 +71,9 @@ public class MrvPackingStrategy implements PackingStrategy {
 
                 if (didAddToBag)
                     states.add(bagsStateCopy);
-                
-                iters++;
             }
-            stack.addAll(states);
+            pQueue.addAll(states);
+            zeroConstrainingValue(states);
             iters++;
         }
 
@@ -81,5 +87,11 @@ public class MrvPackingStrategy implements PackingStrategy {
     @Override
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    private void zeroConstrainingValue(Set<BaggingState> states) {
+        for (BaggingState state : states) {
+            state.setConstrainingValueToZero();
+        }
     }
 }

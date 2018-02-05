@@ -1,5 +1,6 @@
 package com.aoros.baggingproblem;
 
+import java.util.Queue;
 import java.util.Stack;
 
 public class PackingUtils {
@@ -15,12 +16,29 @@ public class PackingUtils {
     public static void printStack(Stack<BaggingState> stack, int iteration) {
         System.out.println("Stack Iteration " + iteration);
         for (int i = stack.size(); i > 0; i--) {
-            System.out.println("   BaggingConfiguration Level " + i + ":");
+            System.out.println("   BaggingState Level " + i + ":");
             int b = 1;
             for (Bag bag : stack.get(i - 1).getBags()) {
                 System.out.println("      Bag " + b + ": " + bag.getBagItemNames());
                 b++;
             }
+        }
+        System.out.println("");
+    }
+
+    public static void printQueue(Queue<BaggingState> queue, int iteration) {
+        System.out.println("Queue Iteration " + iteration);
+        int i = 1;
+        for (BaggingState state : queue) {
+            System.out.println("   Queue Iteration " + iteration
+                    + " / BaggingState Level " + i
+                    + " / origVal: " + state.getOriginalConstrainingValue());
+            int b = 1;
+            for (Bag bag : state.getBags()) {
+                System.out.println("      Bag " + b + ": " + bag.getBagItemNames());
+                b++;
+            }
+            i++;
         }
         System.out.println("");
     }

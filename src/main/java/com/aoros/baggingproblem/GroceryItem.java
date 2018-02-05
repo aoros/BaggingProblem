@@ -8,7 +8,7 @@ public class GroceryItem {
     private final String name;
     private final Integer size;
     private Boolean isWhiteList = null;
-    private final Set<String> compatibilitySet = new HashSet<>();
+    private final Set<String> constraintSet = new HashSet<>();
 
     public GroceryItem(String groceryItemDefinition) {
         String[] items = groceryItemDefinition.split("\\s+");
@@ -21,7 +21,7 @@ public class GroceryItem {
         }
         if (items.length > 3) {
             for (int i = 3; i < items.length; i++) {
-                compatibilitySet.add(items[i]);
+                constraintSet.add(items[i]);
             }
         }
     }
@@ -35,7 +35,7 @@ public class GroceryItem {
     }
 
     public Set<String> getCompatibilitySet() {
-        return compatibilitySet;
+        return constraintSet;
     }
 
     private void setWhiteOrBlackListSymbol(String whiteOrBlackListSymbol) {
@@ -54,12 +54,12 @@ public class GroceryItem {
         }
 
         if (isWhiteList) {
-            return compatibilitySet;
+            return constraintSet;
         }
 
         Set<String> whiteListSet = new HashSet<>();
         whiteListSet.addAll(sourceSet);
-        whiteListSet.removeAll(compatibilitySet);
+        whiteListSet.removeAll(constraintSet);
         return whiteListSet;
     }
 
@@ -67,11 +67,11 @@ public class GroceryItem {
         if (isWhiteList == null)
             return 0;
 
-        return countOfAllGroceryItems - compatibilitySet.size();
+        return countOfAllGroceryItems - constraintSet.size();
     }
 
     @Override
     public String toString() {
-        return "GroceryItem{" + "name=" + name + ", size=" + size + ", isWhiteList=" + isWhiteList + ", compatibilityList=" + compatibilitySet + '}';
+        return "GroceryItem{" + "name=" + name + ", size=" + size + ", isWhiteList=" + isWhiteList + ", compatibilityList=" + constraintSet + '}';
     }
 }

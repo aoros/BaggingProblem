@@ -4,6 +4,7 @@ import com.aoros.baggingproblem.strategy.PackingStrategy;
 import com.aoros.baggingproblem.strategy.DepthFirstPackingStrategy;
 import com.aoros.baggingproblem.strategy.BreadthFirstPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvForwardCheckingPackingStrategy;
+import com.aoros.baggingproblem.strategy.MrvLcvPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvPackingStrategy;
 import java.util.HashSet;
 import java.util.List;
@@ -17,14 +18,17 @@ public class Bagit {
     private static final String DEPTH = "-depth";
     private static final String MRV = "-mrv";
     private static final String MRV_FC = "-mrv_fc";
+    private static final String MRV_LCV = "-mrv_lcv";
 
     public static void main(String[] args) {
         PackingDefinition packingDefinition = null;
         String strategyToUse = "";
 
         if (DEBUG) {
-            packingDefinition = new PackingDefinition("src/main/resources/test6");
-            strategyToUse = MRV_FC;
+            packingDefinition = new PackingDefinition("src/main/resources/test3");
+            strategyToUse = MRV_LCV;
+//            strategyToUse = MRV;
+//            strategyToUse = DEPTH;
         } else {
             if (args.length < 1) {
                 usage();
@@ -37,6 +41,7 @@ public class Bagit {
 
         if (!packingDefinition.isIsValidList()) {
             System.out.println("failure");
+            return;
         }
 
         PackingStrategy strategy;
@@ -48,6 +53,8 @@ public class Bagit {
             strategy = new MrvPackingStrategy();
         } else if (MRV_FC.equals(strategyToUse)) {
             strategy = new MrvForwardCheckingPackingStrategy();
+        } else if (MRV_LCV.equals(strategyToUse)) {
+            strategy = new MrvLcvPackingStrategy();
         } else {
             usage();
             return;
