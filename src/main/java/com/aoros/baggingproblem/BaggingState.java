@@ -1,15 +1,16 @@
 package com.aoros.baggingproblem;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BaggingConfiguration {
+public class BaggingState {
 
     private final PackingDefinition packingDefinition;
     private final Bag[] bags;
     private final Set<Bag> bagSet = new HashSet<>();
 
-    public BaggingConfiguration(PackingDefinition packingDefinition) {
+    public BaggingState(PackingDefinition packingDefinition) {
         this.packingDefinition = packingDefinition;
         this.bags = new Bag[packingDefinition.getNumAvailableBags()];
     }
@@ -23,6 +24,8 @@ public class BaggingConfiguration {
     }
 
     public Set<Bag> getBagSet() {
+        bagSet.clear();
+        bagSet.addAll(Arrays.asList(bags));
         return bagSet;
     }
 
@@ -36,8 +39,8 @@ public class BaggingConfiguration {
         return numItemsInBags;
     }
 
-    public BaggingConfiguration copyOf() {
-        BaggingConfiguration copy = new BaggingConfiguration(packingDefinition);
+    public BaggingState copyOf() {
+        BaggingState copy = new BaggingState(packingDefinition);
         for (int i = 0; i < bags.length; i++) {
             copy.add(bags[i].copyOf(), i);
         }

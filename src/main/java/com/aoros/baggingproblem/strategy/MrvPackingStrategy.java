@@ -1,7 +1,7 @@
 package com.aoros.baggingproblem.strategy;
 
 import com.aoros.baggingproblem.Bag;
-import com.aoros.baggingproblem.BaggingConfiguration;
+import com.aoros.baggingproblem.BaggingState;
 import com.aoros.baggingproblem.GroceryItem;
 import com.aoros.baggingproblem.PackingDefinition;
 import com.aoros.baggingproblem.PackingUtils;
@@ -22,8 +22,8 @@ public class MrvPackingStrategy implements PackingStrategy {
     }
 
     @Override
-    public List<BaggingConfiguration> packBags() {
-        List<BaggingConfiguration> solutions = new ArrayList<>();
+    public List<BaggingState> packBags() {
+        List<BaggingState> solutions = new ArrayList<>();
         List<GroceryItem> groceryItems = packingDefinition.getGroceryItems();
         int numGroceryItems = groceryItems.size();
         groceryItems.sort((GroceryItem o1, GroceryItem o2) -> {
@@ -32,7 +32,7 @@ public class MrvPackingStrategy implements PackingStrategy {
             return o2Val - o1Val;
         });
 
-        Stack<BaggingConfiguration> stack = new Stack<>();
+        Stack<BaggingState> stack = new Stack<>();
         stack.push(PackingUtils.getNewEmptyBagsState(packingDefinition, numBagsAllowed));
         int totalNumberOfGroceryItems = groceryItems.size();
 
@@ -41,7 +41,7 @@ public class MrvPackingStrategy implements PackingStrategy {
             if (debug)
                 printStack(stack, iters);
 
-            BaggingConfiguration bagsState = stack.pop();
+            BaggingState bagsState = stack.pop();
 
             if (isGoalStateReached(bagsState, totalNumberOfGroceryItems)) {
                 solutions.add(bagsState);
@@ -50,7 +50,7 @@ public class MrvPackingStrategy implements PackingStrategy {
 
             int itemIndexToGet = bagsState.getNumItemsInBags();
             for (int i = 0; i < numBagsAllowed; i++) {
-                BaggingConfiguration bagsStateCopy = bagsState.copyOf();
+                BaggingState bagsStateCopy = bagsState.copyOf();
                 GroceryItem item = groceryItems.get(itemIndexToGet);
                 boolean didAddToBag = bagsStateCopy.getBags()[i].addItem(item);
                 
@@ -63,7 +63,7 @@ public class MrvPackingStrategy implements PackingStrategy {
         return solutions;
     }
 
-    private boolean isGoalStateReached(BaggingConfiguration bagsState, int totalNumberOfGroceryItems) {
+    private boolean isGoalStateReached(BaggingState bagsState, int totalNumberOfGroceryItems) {
         return bagsState.getNumItemsInBags() == totalNumberOfGroceryItems;
     }
 
@@ -72,7 +72,7 @@ public class MrvPackingStrategy implements PackingStrategy {
         this.debug = debug;
     }
 
-    private void printStack(Stack<BaggingConfiguration> stack, int iteration) {
+    private void printStack(Stack<BaggingState> stack, int iteration) {
         System.out.println("Stack Iteration " + iteration);
         for (int i = stack.size(); i > 0; i--) {
             System.out.println("   BaggingConfiguration Level " + i + ":");

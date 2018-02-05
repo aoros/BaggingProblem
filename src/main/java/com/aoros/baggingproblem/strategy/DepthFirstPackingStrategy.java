@@ -1,6 +1,6 @@
 package com.aoros.baggingproblem.strategy;
 
-import com.aoros.baggingproblem.BaggingConfiguration;
+import com.aoros.baggingproblem.BaggingState;
 import com.aoros.baggingproblem.GroceryItem;
 import com.aoros.baggingproblem.PackingDefinition;
 import com.aoros.baggingproblem.PackingUtils;
@@ -21,18 +21,18 @@ public class DepthFirstPackingStrategy implements PackingStrategy {
     }
 
     @Override
-    public List<BaggingConfiguration> packBags() {
-        List<BaggingConfiguration> solutions = new ArrayList<>();
+    public List<BaggingState> packBags() {
+        List<BaggingState> solutions = new ArrayList<>();
         List<GroceryItem> groceryItems = packingDefinition.getGroceryItems();
         int totalNumberOfGroceryItems = groceryItems.size();
 
-        Stack<BaggingConfiguration> stack = new Stack<>();
+        Stack<BaggingState> stack = new Stack<>();
         stack.push(PackingUtils.getNewEmptyBagsState(packingDefinition, numBagsAllowed));
 
         int iters = 1;
         while (!stack.isEmpty()) {
 
-            BaggingConfiguration bagsState = stack.pop();
+            BaggingState bagsState = stack.pop();
             int numberOfItemsInBags = bagsState.getNumItemsInBags();
             int itemIndexToGet = numberOfItemsInBags;
             if (numberOfItemsInBags == totalNumberOfGroceryItems) {
@@ -44,7 +44,7 @@ public class DepthFirstPackingStrategy implements PackingStrategy {
             }
 
             for (int i = 0; i < numBagsAllowed; i++) {
-                BaggingConfiguration bagsStateCopy = bagsState.copyOf();
+                BaggingState bagsStateCopy = bagsState.copyOf();
                 GroceryItem item = groceryItems.get(itemIndexToGet);
                 boolean didAddToBag = bagsStateCopy.getBags()[i].addItem(item);
                 if (didAddToBag) {

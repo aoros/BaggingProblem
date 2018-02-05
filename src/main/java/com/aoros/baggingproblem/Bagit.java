@@ -51,17 +51,17 @@ public class Bagit {
 
         strategy.setDebug(DEBUG);
         strategy.setPackingDefinition(packingDefinition);
-        List<BaggingConfiguration> solutions = strategy.packBags();
+        List<BaggingState> solutions = strategy.packBags();
 
         printOutcome(solutions);
     }
 
-    private static void printOutcome(List<BaggingConfiguration> solutions) {
+    private static void printOutcome(List<BaggingState> solutions) {
         if (solutions == null || solutions.isEmpty()) {
             System.out.println("failure");
         } else {
             Set<Set<Bag>> solutionSet = new HashSet<>();
-            for (BaggingConfiguration solution : solutions) {
+            for (BaggingState solution : solutions) {
                 Set<Bag> bagSet = new HashSet<>();
                 for (Bag bag : solution.getBags()) {
                     bagSet.add(bag);

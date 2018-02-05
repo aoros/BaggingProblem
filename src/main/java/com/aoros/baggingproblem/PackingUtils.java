@@ -2,8 +2,8 @@ package com.aoros.baggingproblem;
 
 public class PackingUtils {
 
-    public static BaggingConfiguration getNewEmptyBagsState(PackingDefinition packingDefinition, int numBagsAllowed) {
-        BaggingConfiguration bags = new BaggingConfiguration(packingDefinition);
+    public static BaggingState getNewEmptyBagsState(PackingDefinition packingDefinition, int numBagsAllowed) {
+        BaggingState bags = new BaggingState(packingDefinition);
         for (int i = 0; i < numBagsAllowed; i++) {
             bags.add(new Bag(packingDefinition), i);
         }
