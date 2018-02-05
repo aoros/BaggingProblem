@@ -38,8 +38,8 @@ public class PackingDefinition {
                 allItemNames.add(item.getName());
             }
 
-            createWhiteListDomainMap();
-            createUniqueDomainSets();
+//            createWhiteListDomainMap();
+//            createUniqueDomainSets();
             validityCheck();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PackingDefinition.class.getName()).log(Level.SEVERE, null, ex);
