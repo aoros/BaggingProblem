@@ -18,7 +18,7 @@ public class Bagit {
     private static final String DEPTH = "-depth";
     private static final String MRV = "-mrv";
     private static final String MRV_FC = "-mrv_fc";
-    private static final String MRV_LCV = "-mrv_lcv";
+    private static final String MRV_LCV = "-pq";
 
     public static void main(String[] args) {
         PackingDefinition packingDefinition = null;
