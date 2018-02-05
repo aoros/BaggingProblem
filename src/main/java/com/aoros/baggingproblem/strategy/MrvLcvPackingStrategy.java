@@ -51,14 +51,15 @@ public class MrvLcvPackingStrategy implements PackingStrategy {
 
         int iters = 1;
         while (!pQueue.isEmpty()) {
-//            if (debug)
-//                PackingUtils.printQueue(pQueue, iters);
+            if (debug)
+                PackingUtils.printQueue(pQueue, iters);
 
             BaggingState bagsState = pQueue.poll();
 
             if (isGoalStateReached(bagsState, totalNumberOfGroceryItems)) {
                 solutions.add(bagsState);
-                System.out.println("iters: " + iters);
+                if (debug)
+                    System.out.println("iters: " + iters);
                 return solutions;
             }
 

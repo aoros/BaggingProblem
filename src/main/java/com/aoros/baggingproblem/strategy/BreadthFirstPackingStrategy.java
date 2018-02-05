@@ -32,13 +32,15 @@ public class BreadthFirstPackingStrategy implements PackingStrategy {
 
         int iters = 1;
         while (!queue.isEmpty()) {
-            if (debug) {
-                System.out.println(iters + " ");
-            }
+            if (debug)
+                PackingUtils.printQueue(queue, iters);
+
             BaggingState bagsState = queue.remove();
             int numberOfItemsInBags = bagsState.getNumItemsInBags();
             int itemIndexToGet = numberOfItemsInBags;
             if (numberOfItemsInBags == totalNumberOfGroceryItems) {
+                if (debug)
+                    System.out.println("iters: " + iters);
                 solutions.add(bagsState);
             } else {
                 for (int i = 0; i < numBagsAllowed; i++) {

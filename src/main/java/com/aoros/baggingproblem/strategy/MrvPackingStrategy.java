@@ -44,14 +44,15 @@ public class MrvPackingStrategy implements PackingStrategy {
 
         int iters = 1;
         while (!stack.isEmpty()) {
-//            if (debug)
-//                PackingUtils.printStack(stack, iters);
+            if (debug)
+                PackingUtils.printStack(stack, iters);
 
             BaggingState bagsState = stack.pop();
 
             if (isGoalStateReached(bagsState, totalNumberOfGroceryItems)) {
                 solutions.add(bagsState);
-                System.out.println("iters: " + iters);
+                if (debug)
+                    System.out.println("iters: " + iters);
                 return solutions;
             }
 
@@ -64,8 +65,6 @@ public class MrvPackingStrategy implements PackingStrategy {
 
                 if (didAddToBag)
                     states.add(bagsStateCopy);
-                
-                iters++;
             }
             stack.addAll(states);
             iters++;
