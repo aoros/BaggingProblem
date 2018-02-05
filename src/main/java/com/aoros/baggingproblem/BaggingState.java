@@ -2,6 +2,7 @@ package com.aoros.baggingproblem;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class BaggingState {
@@ -45,6 +46,23 @@ public class BaggingState {
             copy.add(bags[i].copyOf(), i);
         }
         return copy;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.bagSet);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        final BaggingState other = (BaggingState) obj;
+
+        return this.getBagSet().containsAll(other.getBagSet());
     }
 
     @Override

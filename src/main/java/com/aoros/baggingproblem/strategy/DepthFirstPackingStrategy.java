@@ -5,7 +5,9 @@ import com.aoros.baggingproblem.GroceryItem;
 import com.aoros.baggingproblem.PackingDefinition;
 import com.aoros.baggingproblem.PackingUtils;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 public class DepthFirstPackingStrategy implements PackingStrategy {
@@ -31,32 +33,34 @@ public class DepthFirstPackingStrategy implements PackingStrategy {
 
         int iters = 1;
         while (!stack.isEmpty()) {
+//            if (debug)
+//                PackingUtils.printStack(stack, iters);
 
             BaggingState bagsState = stack.pop();
             int numberOfItemsInBags = bagsState.getNumItemsInBags();
-            int itemIndexToGet = numberOfItemsInBags;
+            
             if (numberOfItemsInBags == totalNumberOfGroceryItems) {
                 solutions.add(bagsState);
-                if (debug) {
-                    System.out.println(iters + " ");
-                }
+                System.out.println("iters: " + iters);
                 return solutions;
             }
 
+            Set<BaggingState> states = new HashSet<>();
+            int itemIndexToGet = numberOfItemsInBags;
             for (int i = 0; i < numBagsAllowed; i++) {
                 BaggingState bagsStateCopy = bagsState.copyOf();
                 GroceryItem item = groceryItems.get(itemIndexToGet);
                 boolean didAddToBag = bagsStateCopy.getBags()[i].addItem(item);
-                if (didAddToBag) {
-                    stack.add(bagsStateCopy);
-                }
+                
+                if (didAddToBag)
+                    states.add(bagsStateCopy);
+                
+                iters++;
             }
+            stack.addAll(states);
             iters++;
         }
-
-        if (debug) {
-            System.out.println(iters + " ");
-        }
+        
         return solutions;
     }
 

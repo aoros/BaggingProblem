@@ -64,6 +64,9 @@ public class GroceryItem {
     }
 
     public int getBlacklistSize(int countOfAllGroceryItems) {
+        if (isWhiteList == null)
+            return 0;
+
         return countOfAllGroceryItems - compatibilitySet.size();
     }
 

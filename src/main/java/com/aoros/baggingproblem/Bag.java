@@ -101,7 +101,7 @@ public class Bag {
     private void adjustAllowedItemsSet(GroceryItem groceryItem) {
         Set<String> itemWhiteList = groceryItem.getWhiteListSet(allItemNames);
         Set<String> newAllowedItems = new HashSet<>(allowedItems);
-        newAllowedItems.retainAll(itemWhiteList);
+        newAllowedItems.retainAll(itemWhiteList); // retainAll is the intersection of the two sets
         allowedItems = newAllowedItems;
     }
 

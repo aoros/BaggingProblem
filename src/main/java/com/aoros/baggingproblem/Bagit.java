@@ -3,6 +3,7 @@ package com.aoros.baggingproblem;
 import com.aoros.baggingproblem.strategy.PackingStrategy;
 import com.aoros.baggingproblem.strategy.DepthFirstPackingStrategy;
 import com.aoros.baggingproblem.strategy.BreadthFirstPackingStrategy;
+import com.aoros.baggingproblem.strategy.MrvForwardCheckingPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvPackingStrategy;
 import java.util.HashSet;
 import java.util.List;
@@ -15,14 +16,15 @@ public class Bagit {
     private static final String BREADTH = "-breadth";
     private static final String DEPTH = "-depth";
     private static final String MRV = "-mrv";
+    private static final String MRV_FC = "-mrv_fc";
 
     public static void main(String[] args) {
         PackingDefinition packingDefinition = null;
         String strategyToUse = "";
 
         if (DEBUG) {
-            packingDefinition = new PackingDefinition("src/main/resources/test1");
-            strategyToUse = MRV;
+            packingDefinition = new PackingDefinition("src/main/resources/test6");
+            strategyToUse = MRV_FC;
         } else {
             if (args.length < 1) {
                 usage();
@@ -44,6 +46,8 @@ public class Bagit {
             strategy = new DepthFirstPackingStrategy();
         } else if (MRV.equals(strategyToUse)) {
             strategy = new MrvPackingStrategy();
+        } else if (MRV_FC.equals(strategyToUse)) {
+            strategy = new MrvForwardCheckingPackingStrategy();
         } else {
             usage();
             return;
