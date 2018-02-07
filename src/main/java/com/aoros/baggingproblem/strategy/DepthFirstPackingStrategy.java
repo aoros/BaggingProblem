@@ -33,16 +33,16 @@ public class DepthFirstPackingStrategy implements PackingStrategy {
 
         int iters = 1;
         while (!stack.isEmpty()) {
-            if (debug)
-                PackingUtils.printStack(stack, iters);
+//            if (debug)
+//                PackingUtils.printStack(stack, iters);
 
             BaggingState bagsState = stack.pop();
             int numberOfItemsInBags = bagsState.getNumItemsInBags();
 
             if (numberOfItemsInBags == totalNumberOfGroceryItems) {
                 solutions.add(bagsState);
-                if (debug)
-                    System.out.println("iters: " + iters);
+//                if (debug)
+//                    System.out.println("iters: " + iters);
                 return solutions;
             }
 

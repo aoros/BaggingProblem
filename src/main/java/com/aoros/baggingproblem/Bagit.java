@@ -6,6 +6,7 @@ import com.aoros.baggingproblem.strategy.BreadthFirstPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvForwardCheckingPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvLcvPackingStrategy;
 import com.aoros.baggingproblem.strategy.MrvPackingStrategy;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,8 @@ public class Bagit {
 
     // github info:   https://netbeans.org/kb/docs/ide/github_nb_screencast.html
     private static final boolean DEBUG = true;
+    private static final boolean USE_TIMER = true;
+    private static final String DEFAULT_GROCERY_LIST_FILE = "src/main/resources/g8.txt";
     private static final String BREADTH = "-breadth";
     private static final String DEPTH = "-depth";
     private static final String MRV = "-mrv";
@@ -21,11 +24,13 @@ public class Bagit {
     private static final String MRV_LCV = "-pq";
 
     public static void main(String[] args) {
+        Long startTime = System.currentTimeMillis();
+
         PackingDefinition packingDefinition = null;
         String strategyToUse = "";
 
         if (DEBUG) {
-            packingDefinition = new PackingDefinition("src/main/resources/test3");
+            packingDefinition = new PackingDefinition(DEFAULT_GROCERY_LIST_FILE);
             strategyToUse = MRV_LCV;
 //            strategyToUse = MRV;
 //            strategyToUse = DEPTH;
@@ -40,7 +45,7 @@ public class Bagit {
         }
 
         if (!packingDefinition.isIsValidList()) {
-            System.out.println("failure");
+            printOutcome(new ArrayList<>(), startTime);
             return;
         }
 
@@ -64,24 +69,42 @@ public class Bagit {
         strategy.setPackingDefinition(packingDefinition);
         List<BaggingState> solutions = strategy.packBags();
 
-        printOutcome(solutions);
+        printOutcome(solutions, startTime);
     }
 
-    private static void printOutcome(List<BaggingState> solutions) {
-        if (solutions == null || solutions.isEmpty()) {
-            System.out.println("failure");
+    private static boolean solutionExists(List<BaggingState> solutions) {
+        return solutions != null && !solutions.isEmpty();
+    }
+
+    private static void printOutcome(List<BaggingState> solutions, Long startTime) {
+        if (USE_TIMER) {
+            Long endTime = System.currentTimeMillis();
+            Long timeInSecs = (endTime - startTime);
+            String timingMsg = "Runtime duration " + timeInSecs + " millisecs.";
+            if (solutionExists(solutions))
+                timingMsg += " Success for ";
+            else
+                timingMsg += " Failure for ";
+
+            timingMsg += DEFAULT_GROCERY_LIST_FILE;
+
+            System.out.println(timingMsg);
         } else {
-            Set<Set<Bag>> solutionSet = new HashSet<>();
-            for (BaggingState solution : solutions) {
-                Set<Bag> bagSet = new HashSet<>();
-                for (Bag bag : solution.getBags()) {
-                    bagSet.add(bag);
+            if (!solutionExists(solutions)) {
+                System.out.println("failure");
+            } else {
+                Set<Set<Bag>> solutionSet = new HashSet<>();
+                for (BaggingState solution : solutions) {
+                    Set<Bag> bagSet = new HashSet<>();
+                    for (Bag bag : solution.getBags()) {
+                        bagSet.add(bag);
+                    }
+                    solutionSet.add(bagSet);
                 }
-                solutionSet.add(bagSet);
-            }
-            for (Set<Bag> solution : solutionSet) {
-                System.out.println("success");
-                System.out.print(getBagItemNames(solution));
+                for (Set<Bag> solution : solutionSet) {
+                    System.out.println("success");
+                    System.out.print(getBagItemNames(solution));
+                }
             }
         }
     }
