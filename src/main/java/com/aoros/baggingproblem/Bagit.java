@@ -14,8 +14,8 @@ import java.util.Set;
 public class Bagit {
 
     // github info:   https://netbeans.org/kb/docs/ide/github_nb_screencast.html
-    private static final boolean DEBUG = true;
-    private static final boolean USE_TIMER = true;
+    private static final boolean DEBUG = false;
+    private static final boolean USE_TIMER = false;
     private static final String DEFAULT_GROCERY_LIST_FILE = "src/main/resources/g8.txt";
     private static final String BREADTH = "-breadth";
     private static final String DEPTH = "-depth";
@@ -110,7 +110,7 @@ public class Bagit {
     }
 
     public static void usage() {
-        System.out.print("Usage: java Bagit filename [depth | breadth]");
+        System.out.print("Usage: java Bagit filename [-depth | -breadth | -pq]");
         System.out.println();
         System.exit(-1);
     }
