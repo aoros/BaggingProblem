@@ -34,13 +34,13 @@ public class BaggingData implements IntegerIdentifiedData {
                     int bagNumber = r.nextInt(items.getNumAvailableBags());
 //                    int itemSize = items.getSizes()[itemId];
 //                    if (solution.willItemFitInBag(bagNumber, itemSize)) {
-                        solution.addItemToBag(bagNumber, itemId);
-                        addedToBag = true;
+                    solution.addItemToBag(bagNumber, itemId);
+                    addedToBag = true;
 //                    } else {
-                        addToBagCount++;
-                        if (addToBagCount > items.getNumAvailableBags() * 100) {
-                            allItemsAdded = false;
-                            break;
+                    addToBagCount++;
+                    if (addToBagCount > items.getNumAvailableBags() * 100) {
+                        allItemsAdded = false;
+                        break;
 //                        }
                     }
                 }

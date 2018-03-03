@@ -19,11 +19,15 @@ import java.util.Set;
 
 public class Bagit {
 
+    // g2, g4, g5, g8, g9 should be solvable
+    // not sure about g6 and g10
+    // and the rest should fail
+    //
     // github info:   https://netbeans.org/kb/docs/ide/github_nb_screencast.html
     private static final boolean DEBUG = true;
     private static final boolean STRATEGY_DEBUG = false;
     private static final boolean USE_TIMER = true;
-    private static final String DEFAULT_GROCERY_LIST_FILE = "src/main/resources/g4";
+    private static final String DEFAULT_GROCERY_LIST_FILE = "src/main/resources/g9";
     private static final String BREADTH = "-breadth";
     private static final String DEPTH = "-depth";
     private static final String MRV = "-mrv";
@@ -73,8 +77,8 @@ public class Bagit {
         } else if (MRV_LCV.equals(strategyToUse)) {
             strategy = new MrvLcvPackingStrategy();
         } else if (COOL.equals(strategyToUse)) {
-            int iters = 10;
-            int timeLimitPerIterationInSecs = 6;
+            int iters = 5;
+            int timeLimitPerIterationInSecs = 20;
             startLocalSearch(fileName, iters, timeLimitPerIterationInSecs);
         } else {
             usage();
@@ -150,10 +154,13 @@ public class Bagit {
 
             boolean solutionFound = false;
             for (int k = 0; k < iters; k++) {
+                printMsg("=== ITERATION: " + k + 1 + " ===");
+                
                 BaggingSolution randomBaggingSolution = data.createRandomSolution();
                 if (randomBaggingSolution == null) {
                     break;
                 }
+                printMsg("Found random bagging solution.");
                 BaggingLocalSearch search = new BaggingLocalSearch(randomBaggingSolution, timeLimitInSecs, STRATEGY_DEBUG);
                 BaggingSolution solution = search.performSearch();
 
@@ -164,8 +171,6 @@ public class Bagit {
                     solutionFound = true;
                     break;
                 }
-                if (DEBUG)
-                    System.out.println("=== ITERATION: " + k + " ===");
             }
             if (!solutionFound)
                 System.out.println("failure");
